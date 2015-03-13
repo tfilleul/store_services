@@ -5,6 +5,12 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans 
 						http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+	<!-- Partie CT-LDAP -->
+	<import resource="classpath*:spring/ldap-tech-context.xml" />
+	<import resource="classpath*:spring/ldap-service-context.xml" />
+	<import resource="classpath*:spring/ldap-domaine-context.xml" />
+	<import resource="classpath*:spring/ldap-persistance-context.xml" />
+	
 	<!-- Partie RFA -->
 <!-- 	<import resource="classpath:spring/tech-context.xml" />
 	<import resource="classpath:spring/service-context.xml" />
@@ -13,6 +19,7 @@
 	<import resource="classpath:spring/security-context.xml" />
  -->
 	<import resource="classpath:spring/persistance-context.xml" />
-
+	<import resource="classpath:spring/security-context.xml" />
+	<import resource="classpath:spring/service-context.xml" />
 
 </beans>
