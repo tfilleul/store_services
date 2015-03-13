@@ -21,24 +21,21 @@ import javax.persistence.Version;
 @Table(name = "droit", catalog = "store")
 public class Droit implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Integer id;
 	private int version;
 	private String lable;
 	private String code;
-	private Set<AclStore> aclStores = new HashSet<AclStore>(0);
 
 	public Droit() {
 	}
 
 	public Droit(String lable, String code) {
 		this.lable = lable;
-		this.code = code;
-	}
-
-	public Droit(String lable, String code, Set<AclStore> aclStores) {
-		this.lable = lable;
-		this.code = code;
-		this.aclStores = aclStores;
+		this.code = code;	
 	}
 
 	@Id
@@ -78,15 +75,6 @@ public class Droit implements java.io.Serializable {
 
 	public void setCode(String code) {
 		this.code = code;
-	}
-
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "droit")
-	public Set<AclStore> getAclStores() {
-		return this.aclStores;
-	}
-
-	public void setAclStores(Set<AclStore> aclStores) {
-		this.aclStores = aclStores;
 	}
 
 }

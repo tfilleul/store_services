@@ -1,7 +1,5 @@
 package fr.tfl.store.services;
 
-import java.util.List;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -9,9 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import fr.tfl.store.bean.CredentialImpl;
 import fr.tfl.store.bean.User;
-import fr.tfl.store.model.UserModel;
 import fr.tfl.store.persistance.IUserDao;
-import fr.tfl.store.persistance.critere.CritereImpl;
 
 /**
  * Couche service User
@@ -33,11 +29,11 @@ public class AuthServiceImpl implements IAuthService {
 	}
 	
 	@Transactional(readOnly = true)
-	public UserModel auth(CredentialImpl credential) {			
-		UserModel userModel = new UserModel();
-		User user = userDao.auth(credential);
-		userModel.copyModel(user);
-		return userModel;
+	public User auth(CredentialImpl credential) {
+		// stockage des acl en session
+		User user = userDao.auth(credential);	
+		user.getProfil().getAclStores().size();
+		return user;
 		
 	}
 

@@ -1,10 +1,10 @@
 package fr.tfl.store.services;
 
 import fr.tfl.store.bean.CredentialImpl;
-import fr.tfl.store.model.UserModel;
+import fr.tfl.store.bean.User;
 
 public interface IAuthService {
 	
-	public UserModel auth(CredentialImpl credential);
+	public User auth(CredentialImpl credential);
 
 }
