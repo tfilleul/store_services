@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-reverse-engineering PUBLIC "-//Hibernate/Hibernate Reverse Engineering DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-reverse-engineering-3.0.dtd" >
+
+<hibernate-reverse-engineering>
+  <table-filter match-catalog="store" match-name="acl_store"/>
+  <table-filter match-catalog="store" match-name="droit"/>
+  <table-filter match-catalog="store" match-name="profil"/>
+  <table-filter match-catalog="store" match-name="ressource"/>
+  <table-filter match-catalog="store" match-name="user"/>
+</hibernate-reverse-engineering>
