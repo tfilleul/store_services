@@ -9,7 +9,7 @@ public class CritereImpl implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	String name;
-	String firstname;
+	String firstName;
 	String age;
 
 	public String getName() {
@@ -18,14 +18,14 @@ public class CritereImpl implements Serializable {
 
 	public void setName(String name) {
 		this.name = name;
+	}	
+
+	public String getFirstName() {
+		return firstName;
 	}
 
-	public String getFistname() {
-		return firstname;
-	}
-
-	public void setFistname(String fistname) {
-		this.firstname = fistname;
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
 	}
 
 	public String getAge() {

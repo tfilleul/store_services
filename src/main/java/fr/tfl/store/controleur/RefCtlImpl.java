@@ -25,7 +25,7 @@ public class RefCtlImpl extends AbstractStoreCtlImpl {
 	@RequestMapping(value="/getRef")	
 	public @ResponseBody RefModel getRef(
 			@RequestParam(value = "type",defaultValue="0") int type) {
-		logger.info("getUser");
+		logger.info("getRef");
 		final RefModel ref = (RefModel)refService.loadRef(type);       
         return ref;
 	}

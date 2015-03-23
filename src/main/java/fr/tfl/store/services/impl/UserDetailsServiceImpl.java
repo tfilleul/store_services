@@ -19,6 +19,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
   @Autowired	
   private IUserDao userDao;	
+  
   @Transactional(readOnly = true)
   public UserDetails loadUserByUsername(String userName)
       throws UsernameNotFoundException, DataAccessException {

@@ -18,8 +18,8 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import fr.tfl.store.bean.AuthentificationBean;
 import fr.tfl.store.bean.CredentialImpl;
 import fr.tfl.store.bean.User;
-import fr.tfl.store.services.AuthentificationServiceImpl;
 import fr.tfl.store.services.IAuthService;
+import fr.tfl.store.services.impl.AuthentificationServiceImpl;
 
 @Controller
 public class AuthCtlImpl extends AbstractStoreCtlImpl {
@@ -32,6 +32,9 @@ public class AuthCtlImpl extends AbstractStoreCtlImpl {
 	@Autowired
 	private IAuthService authService;
 	
+	@Autowired
+	private AuthentificationServiceImpl auth;
+	
 	@RequestMapping(value="/authUser",method = RequestMethod.PUT)
 	public @ResponseBody String authUser(@RequestBody CredentialImpl credential,HttpServletRequest request) throws JsonProcessingException{
 		logger.info("AuthUser");
@@ -43,11 +46,17 @@ public class AuthCtlImpl extends AbstractStoreCtlImpl {
 	}	
 	
 	@RequestMapping(value="/logon",method = RequestMethod.PUT)
-	public @ResponseBody AuthentificationBean authUser(@RequestBody AuthentificationBean authBean,HttpServletRequest request) throws JsonProcessingException{
-		logger.info("AuthUser");
-		
-		AuthentificationServiceImpl auth = new  AuthentificationServiceImpl();
+	public @ResponseBody AuthentificationBean authUser(@RequestBody AuthentificationBean authBean) throws JsonProcessingException{
+		logger.info("logon");	
 		return auth.RFA_S20_logon(authBean);		
-	}	
+	}
+	
+	@RequestMapping(value="/logoff")
+	public @ResponseBody String logoff() throws JsonProcessingException{
+		logger.info("logoff");	
+		auth.RFA_S21_logoff(null);	
+		return "LOGOFF";
+		
+	}
 	
 }

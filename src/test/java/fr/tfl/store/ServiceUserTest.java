@@ -21,7 +21,7 @@ public class ServiceUserTest extends TestCase {
 	
 	@Test
 	public void testUserService() {
-		int id = 1;
+		Long id = 1L;
 		User user =  (User)userService.loadQueryUser(id);
 		System.out.println(user.getName());
 		assertEquals("thierry", user.getFirstname());		

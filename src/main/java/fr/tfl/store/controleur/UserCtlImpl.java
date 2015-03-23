@@ -33,7 +33,7 @@ public class UserCtlImpl extends AbstractStoreCtlImpl {
 	
 	@RequestMapping(value="/getUser")	
 	public @ResponseBody String getUser(
-			@RequestParam(value = "id",defaultValue="0") int id)  {
+			@RequestParam(value = "id",defaultValue="0") Long id)  {
 		try {
 			logger.info("getUser");
 	        ObjectWriter writer = filter();

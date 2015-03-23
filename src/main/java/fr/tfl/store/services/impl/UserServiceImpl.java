@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,33 +20,30 @@ import fr.tfl.store.services.IUserService;
  * @author TFILLEUL
  *
  */
-@Service
+@Service("userService")
 @Transactional
 public class UserServiceImpl implements IUserService {
 	
+	@Autowired
 	private IUserDao userDao;
 	
 	/** Logger **/
 	private static final Logger logger = LoggerFactory
-			.getLogger(UserServiceImpl.class);
-		
-	public void setUserDao(IUserDao userDao) {
-		this.userDao = userDao;
-	}
-
+			.getLogger(UserServiceImpl.class);		
+	
 	@Transactional(readOnly = true)
-	public UserModel loadUser(int id) {
+	public UserModel loadUser(Long id) {
 		// copy du model + regle de gestion
 		UserModel userModel = new UserModel();
-		userModel.copyModel(userDao.findUser(id));
+		userModel.copyModel(userDao.find(id));
 		return userModel;
 	}
 	
 	@Transactional(readOnly = true)
-	public User loadQueryUser(int id) {
+	public User loadQueryUser(Long id) {
 		// copy du model + regle de gestion		
 		//User user = userDao.queryUser(id);
-		User user = userDao.findUser(id);		
+		User user = userDao.find(id);		
 		return user;
 	}
 	
@@ -60,7 +58,7 @@ public class UserServiceImpl implements IUserService {
 	@Transactional(readOnly = true)
 	public List<User> loadAllUser() {
 		// copy du model + regle de gestion		
-		return userDao.findAllUser();		
+		return userDao.findAll();		
 	}
 
 	

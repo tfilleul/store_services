@@ -25,6 +25,11 @@
 
 <bean id="MockLdapContext" class="fr.tfl.store.security.MockLdapContext"></bean>
 
+<bean id="daoAuthenticationProvider"
+ class="org.springframework.security.authentication.dao.DaoAuthenticationProvider">
+  <property name="userDetailsService" ref="userDetailsService"/>
+</bean>
+
 <bean id="ldapAuthProvider"
     class="org.springframework.security.ldap.authentication.LdapAuthenticationProvider">
  <constructor-arg>
@@ -40,12 +45,19 @@
      class="org.springframework.security.authentication.ProviderManager">
   <property name="providers">
     <list>
-      <ref local="ldapAuthProvider"/>
+      <!-- <ref local="ldapAuthProvider"/> -->
+      <ref local="daoAuthenticationProvider" />
     </list>
   </property>
 </bean>
 
 <bean id="unauthorizedEntryPoint" class="fr.tfl.store.security.UnauthorizedEntryPoint" />
+
+<security:authentication-manager>
+  <security:authentication-provider user-service-ref="userDetailsService">
+    <security:password-encoder hash="md5"/>
+  </security:authentication-provider>
+</security:authentication-manager>
 
 <security:http
 		realm="Protected API"
@@ -55,10 +67,9 @@
 		entry-point-ref="unauthorizedEntryPoint"
 		authentication-manager-ref="authenticationManager">
 	<security:custom-filter ref="authenticationTokenProcessingFilter" position="FORM_LOGIN_FILTER" />
-	<security:intercept-url pattern="/mvc/authUser" access="permitAll" />
+	<security:intercept-url pattern="/mvc/logon" access="permitAll" />
 	<security:intercept-url method="GET" pattern="/mvc/**" access="permitAll" />
-	<security:intercept-url method="POST" pattern="/mvc/**" access="isAuthenticated()" />
-	<security:intercept-url method="GET" pattern="/mvc/**" access="permitAll" />
+	<security:intercept-url method="POST" pattern="/mvc/**" access="permitAll" />	
 	<security:intercept-url method="PUT" pattern="/mvc/**" access="isAuthenticated()" />
 	<security:intercept-url method="DELETE" pattern="/mvc/**" access="isAuthenticated()" />
 </security:http>
