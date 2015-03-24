@@ -81,7 +81,7 @@ public class TokenUtils
 			logger.debug("validateToken(" + authToken + "," + sb.toString() + ")");
 		}
 		String[] parts = authToken.split(":");
-		long expires = Long.parseLong(parts[1]);
+		long expires = Long.parseLong(parts[1]);		
 		String signature = parts[2];
 
 		if (expires < System.currentTimeMillis()) {

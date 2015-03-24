@@ -53,7 +53,7 @@ public class AuthenticationTokenProcessingFilter extends GenericFilterBean {
 		       }
     	 }
     
-	    if (!tokenValid){
+	    if (!tokenValid && ((HttpServletRequest)request).getRequestURI().indexOf("logoff") == -1){
 			     	  HttpServletResponse httpReponse = (HttpServletResponse) response;
 			      		httpReponse.sendError(
 			   				HttpServletResponse.SC_UNAUTHORIZED,
