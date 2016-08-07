@@ -5,6 +5,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +20,7 @@ import fr.tfl.store.bean.User;
 import fr.tfl.store.model.UserModel;
 import fr.tfl.store.persistance.critere.CritereImpl;
 import fr.tfl.store.services.IUserService;
+import fr.tfl.store.util.ErrorResourceImpl;
 
 @Controller
 public class UserCtlImpl extends AbstractStoreCtlImpl {
@@ -26,6 +28,7 @@ public class UserCtlImpl extends AbstractStoreCtlImpl {
 	/** Logger **/
 	private static final Logger logger = LoggerFactory
 			.getLogger(UserCtlImpl.class);
+	
 	
 	@Autowired
 	private IUserService userService;
@@ -64,18 +67,19 @@ public class UserCtlImpl extends AbstractStoreCtlImpl {
 	}
 	
 	@RequestMapping(value="/addUser",method = RequestMethod.POST)
-	public @ResponseBody String addUser(@RequestBody User user){		
+	public @ResponseBody void addUser(@RequestBody User user) throws JsonProcessingException {		
 		logger.info("SearchUserImpl addUser");
-		userService.save(user);
-		return "ok";
+		ObjectWriter writer = filter();
+		userService.save(user);		
 	}
 	
 		
 	@RequestMapping(value="/putUser",method = RequestMethod.PUT)
-	public @ResponseBody String putUser(@RequestBody User user){
+	public @ResponseBody void putUser(@RequestBody User user){
 		logger.info("SearchUserImpl addUser");
 		userService.update(user);
-		return "ok";
+		ObjectWriter writer = filter();
+		
 	}
 	
 	

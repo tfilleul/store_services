@@ -27,7 +27,7 @@ import fr.tfl.store.persistance.IDomainEntity;
 @JsonFilter("ProfilFilter")  
 @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 @Entity
-@Table(name = "profil", catalog = "store")
+@Table(name = "profil")
 public class Profil implements IDomainEntity {
 
 	/**

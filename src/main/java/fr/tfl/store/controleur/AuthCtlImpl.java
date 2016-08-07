@@ -55,7 +55,7 @@ public class AuthCtlImpl extends AbstractStoreCtlImpl {
 	public @ResponseBody String logoff() throws JsonProcessingException{
 		logger.info("logoff");	
 		auth.RFA_S21_logoff(null);	
-		return "LOGOFF";
+		return "{\"id\":\"LOGOFF\"}";
 		
 	}
 	

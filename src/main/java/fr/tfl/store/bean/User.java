@@ -23,7 +23,7 @@ import fr.tfl.store.persistance.IDomainEntity;
  */
 @JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 @Entity
-@Table(name = "user", catalog = "store")
+@Table(name = "utilisateur")
 public class User implements IDomainEntity {
 
 	private Long id;
@@ -33,8 +33,8 @@ public class User implements IDomainEntity {
 	private String password;
 	private String mail;
 	private String firstname;
-	private int age;
-
+	private Integer age;
+	
 	public User() {
 	}
 
@@ -114,12 +114,13 @@ public class User implements IDomainEntity {
 		this.firstname = firstname;
 	}
 	
-	@Column(name = "age", nullable = false)
-	public int getAge() {
+	@Column(name = "age", nullable = true)
+	public Integer getAge() {
 		return this.age;
 	}
 
-	public void setAge(int age) {
+	public void setAge(Integer age) {
 		this.age = age;
 	}
+	
 }

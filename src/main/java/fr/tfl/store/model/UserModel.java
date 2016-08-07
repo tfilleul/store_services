@@ -22,6 +22,7 @@ public class UserModel implements Serializable {
 	private String firstname;
 	private String password;
 	private String mail;
+	private int age;
 	private int version;
 	
 	public UserModel copyModel(User user) {
@@ -43,6 +44,15 @@ public class UserModel implements Serializable {
 			listModel.add(this);
 		}	
 		return listModel;
+	}	
+	
+
+	public int getAge() {
+		return age;
+	}
+
+	public void setAge(int age) {
+		this.age = age;
 	}
 
 	public Integer getId() {
