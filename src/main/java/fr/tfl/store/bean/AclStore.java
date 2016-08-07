@@ -22,7 +22,7 @@ import com.fasterxml.jackson.annotation.JsonFilter;
  */
 @JsonFilter("AclStoreFilter")
 @Entity
-@Table(name = "acl_store", catalog = "store")
+@Table(name = "acl_store")
 public class AclStore implements java.io.Serializable {
 
 	/**
