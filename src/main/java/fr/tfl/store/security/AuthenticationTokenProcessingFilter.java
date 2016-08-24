@@ -57,7 +57,7 @@ public class AuthenticationTokenProcessingFilter extends GenericFilterBean {
 			     	  HttpServletResponse httpReponse = (HttpServletResponse) response;
 			      		httpReponse.sendError(
 			   				HttpServletResponse.SC_UNAUTHORIZED,
-			   				"ANSES *** Unauthorized: Authentication token was either missing or invalid.");
+			   				"STORE *** Unauthorized: Authentication token was either missing or invalid.");
 	    }
     }
 

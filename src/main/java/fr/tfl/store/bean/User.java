@@ -4,6 +4,8 @@ package fr.tfl.store.bean;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -34,6 +36,7 @@ public class User implements IDomainEntity {
 	private String mail;
 	private String firstname;
 	private Integer age;
+	private Date birthdate;
 	
 	public User() {
 	}
@@ -122,5 +125,16 @@ public class User implements IDomainEntity {
 	public void setAge(Integer age) {
 		this.age = age;
 	}
+
+	@Column(name = "birthdate", nullable = false)
+	public Date getBirthdate() {
+		return birthdate;
+	}
+
+	public void setBirthdate(Date birthdate) {
+		this.birthdate = birthdate;
+	}
+	
+	
 	
 }

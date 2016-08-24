@@ -30,7 +30,7 @@ public class UnauthorizedEntryPoint implements AuthenticationEntryPoint
 		logger.error("Tentative d'accès à la resource " + uri  +  " sans authentification depuis " + remoteHost);
 		response.sendError(
 				HttpServletResponse.SC_UNAUTHORIZED,
-				"ANSES *** Unauthorized: Authentication token was either missing or invalid.");
+				"STORE *** Unauthorized: Authentication token was either missing or invalid.");
 	}
 
 }

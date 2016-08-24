@@ -68,9 +68,10 @@
 		authentication-manager-ref="authenticationManager">
 	<security:custom-filter ref="authenticationTokenProcessingFilter" position="FORM_LOGIN_FILTER" />
 	<security:intercept-url pattern="/mvc/logon" access="permitAll" />
-	<security:intercept-url pattern="/mvc/logoff" access="permitAll" />
+	<security:intercept-url pattern="/mvc/logoff" access="permitAll" />	
 	<security:intercept-url method="GET" pattern="/mvc/**" access="permitAll" />
-	<security:intercept-url method="POST" pattern="/mvc/**" access="permitAll" />	
+	<security:intercept-url method="POST" pattern="/mvc/getUserByCriteria" access="permitAll" />		
+	<security:intercept-url method="POST" pattern="/mvc/**" access="isAuthenticated()" />	
 	<security:intercept-url method="PUT" pattern="/mvc/**" access="isAuthenticated()" />
 	<security:intercept-url method="DELETE" pattern="/mvc/**" access="isAuthenticated()" />
 </security:http>

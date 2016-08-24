@@ -11,7 +11,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import fr.tfl.store.bean.User;
 
-public class UserModel implements Serializable {
+public class ProductModel implements Serializable {
 	
 	/**
 	 * 
@@ -27,7 +27,7 @@ public class UserModel implements Serializable {
 	private int age;
 	private int version;
 	
-	public UserModel copyModel(User user) {
+	public ProductModel copyModel(User user) {
 		ProfilModel profilModel = new ProfilModel();
 		BeanUtils.copyProperties(user, this);
 		BeanUtils.copyProperties(user.getProfil(), profilModel);
@@ -35,9 +35,9 @@ public class UserModel implements Serializable {
 		return this;
 	}
 	
-	public List<UserModel> copyModel(List<User> users) {
+	public List<ProductModel> copyModel(List<User> users) {
 		ProfilModel profilModel = null;
-		List<UserModel> listModel = new ArrayList<UserModel>();
+		List<ProductModel> listModel = new ArrayList<ProductModel>();
 		for (User user : users) {
 			profilModel = new ProfilModel();
 			BeanUtils.copyProperties(user, this);
