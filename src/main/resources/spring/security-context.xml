@@ -53,6 +53,9 @@
 
 <bean id="unauthorizedEntryPoint" class="fr.tfl.store.security.UnauthorizedEntryPoint" />
 
+<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver" />
+
+
 <security:authentication-manager>
   <security:authentication-provider user-service-ref="userDetailsService">
     <security:password-encoder hash="md5"/>
@@ -70,7 +73,7 @@
 	<security:intercept-url pattern="/mvc/logon" access="permitAll" />
 	<security:intercept-url pattern="/mvc/logoff" access="permitAll" />	
 	<security:intercept-url method="GET" pattern="/mvc/**" access="permitAll" />
-	<security:intercept-url method="POST" pattern="/mvc/getUserByCriteria" access="permitAll" />		
+	<security:intercept-url method="POST" pattern="/mvc/user/search" access="permitAll" />		
 	<security:intercept-url method="POST" pattern="/mvc/**" access="isAuthenticated()" />	
 	<security:intercept-url method="PUT" pattern="/mvc/**" access="isAuthenticated()" />
 	<security:intercept-url method="DELETE" pattern="/mvc/**" access="isAuthenticated()" />

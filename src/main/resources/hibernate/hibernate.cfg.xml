@@ -20,5 +20,7 @@
         <mapping class="fr.tfl.store.bean.Ressource" />
         <mapping class="fr.tfl.store.bean.AclStore" />
         <mapping class="fr.tfl.store.bean.User" />
+        <mapping class="fr.tfl.store.bean.Produit" />  
+        <mapping class="fr.tfl.store.bean.Commande" />
     </session-factory>
 </hibernate-configuration>

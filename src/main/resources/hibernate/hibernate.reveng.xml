@@ -4,4 +4,5 @@
 <hibernate-reverse-engineering>
 	<table-filter match-name="produit" match-schema="public"></table-filter>
 	<table-filter match-name="commande" match-schema="public"></table-filter>
+	<table-filter match-name="utilisateur" match-schema="public"></table-filter>
 </hibernate-reverse-engineering>

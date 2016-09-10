@@ -35,15 +35,15 @@ public class AuthCtlImpl extends AbstractStoreCtlImpl {
 	@Autowired
 	private AuthentificationServiceImpl auth;
 	
-	@RequestMapping(value="/authUser",method = RequestMethod.PUT)
-	public @ResponseBody String authUser(@RequestBody CredentialImpl credential,HttpServletRequest request) throws JsonProcessingException{
-		logger.info("AuthUser");
-		ObjectWriter writer = filterAuth();
-		User user = authService.auth(credential);
-		HttpSession session = request.getSession();
-		session.setAttribute("user", user);
-		return writer.writeValueAsString(user);
-	}	
+//	@RequestMapping(value="/authUser",method = RequestMethod.PUT)
+//	public @ResponseBody String authUser(@RequestBody CredentialImpl credential,HttpServletRequest request) throws JsonProcessingException{
+//		logger.info("AuthUser");
+//		ObjectWriter writer = filterAuth();
+//		User user = authService.auth(credential);
+//		HttpSession session = request.getSession();
+//		session.setAttribute("user", user);
+//		return writer.writeValueAsString(user);
+//	}	
 	
 	@RequestMapping(value="/logon",method = RequestMethod.PUT)
 	public @ResponseBody AuthentificationBean authUser(@RequestBody AuthentificationBean authBean) throws JsonProcessingException{

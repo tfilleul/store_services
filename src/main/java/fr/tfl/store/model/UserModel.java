@@ -26,7 +26,12 @@ public class UserModel implements Serializable {
 	private Date birthdate;
 	private int age;
 	private int version;
-	
+	private String idpicture;
+
+	public void setIdpicture(String idpicture) {
+		this.idpicture = idpicture;
+	}
+
 	public UserModel copyModel(User user) {
 		ProfilModel profilModel = new ProfilModel();
 		BeanUtils.copyProperties(user, this);
@@ -120,6 +125,10 @@ public class UserModel implements Serializable {
 
 	public void setBirthdate(Date birthdate) {
 		this.birthdate = birthdate;
+	}
+	
+	public String getIdpicture() {
+		return idpicture;
 	}
 		
 }
