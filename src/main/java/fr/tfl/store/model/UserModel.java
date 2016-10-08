@@ -6,12 +6,14 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.BeanUtils;
+import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import fr.tfl.store.bean.User;
 
-public class UserModel implements Serializable {
+@Component
+public class UserModel implements IStoreModel<User>,Serializable {
 	
 	/**
 	 * 
@@ -24,7 +26,6 @@ public class UserModel implements Serializable {
 	private String password;
 	private String mail;
 	private Date birthdate;
-	private int age;
 	private int version;
 	private String idpicture;
 
@@ -52,15 +53,6 @@ public class UserModel implements Serializable {
 		}	
 		return listModel;
 	}	
-	
-
-	public int getAge() {
-		return age;
-	}
-
-	public void setAge(int age) {
-		this.age = age;
-	}
 
 	public Integer getId() {
 		return id;

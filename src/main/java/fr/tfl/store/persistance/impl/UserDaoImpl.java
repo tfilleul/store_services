@@ -1,4 +1,4 @@
-package fr.tfl.store.persistance;
+package fr.tfl.store.persistance.impl;
 
 import java.util.List;
 
@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import fr.tfl.store.bean.CredentialImpl;
 import fr.tfl.store.bean.User;
 import fr.tfl.store.controleur.UserCtlImpl;
+import fr.tfl.store.persistance.IUserDao;
 import fr.tfl.store.persistance.critere.CritereImpl;
 
 @Repository
@@ -69,17 +70,5 @@ public class UserDaoImpl extends AbstractDao<User, Long> implements IUserDao {
 			user = listUser.get(0);
 		}
 		return user;
-	}
-	
-	/**
-	 * 
-	 * @param criteria
-	 * @param propertyName
-	 * @param value
-	 */
-	private void addRestrictionIfNotNull(Criteria criteria, String propertyName, Object value) {
-	    if (value != null) {
-	        criteria.add(Restrictions.eq(propertyName, value));
-	    }
 	}
 }

@@ -1,5 +1,5 @@
 package demo;
-// Generated 22 ao�t 2016 09:44:22 by Hibernate Tools 5.1.0.Beta1
+// Generated 30 ao�t 2016 23:51:02 by Hibernate Tools 5.1.0.Beta1
 
 import java.io.Serializable;
 import javax.persistence.Column;

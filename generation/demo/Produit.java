@@ -22,6 +22,7 @@ public class Produit implements java.io.Serializable {
 	private Integer status;
 	private Integer quantity;
 	private Commande commande;
+	private double price;
 
 	public Produit() {
 	}

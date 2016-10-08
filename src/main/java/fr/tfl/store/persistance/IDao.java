@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.hibernate.criterion.DetachedCriteria;
 
+import fr.tfl.store.persistance.critere.CritereImpl;
+
 /**
  * Defines a generic data access object that is extended by all the DAOs in the
  * system. This interface defines the common CRUD methods like <code>save</code>

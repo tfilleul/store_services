@@ -5,6 +5,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,7 +14,7 @@ import fr.tfl.store.bean.User;
 import fr.tfl.store.model.UserModel;
 import fr.tfl.store.persistance.IUserDao;
 import fr.tfl.store.persistance.critere.CritereImpl;
-import fr.tfl.store.services.IUserService;
+import fr.tfl.store.services.IStoreService;
 
 /**
  * Couche service User
@@ -22,70 +23,42 @@ import fr.tfl.store.services.IUserService;
  */
 @Service("userService")
 @Transactional
-public class UserServiceImpl implements IUserService {
-	
-	@Autowired
-	private IUserDao userDao;
+public class UserServiceImpl extends AbstractServiceImpl<User, UserModel,Long> implements IStoreService<User, UserModel,Long> {
 	
 	/** Logger **/
 	private static final Logger logger = LoggerFactory
 			.getLogger(UserServiceImpl.class);		
 	
-	@Transactional(readOnly = true)
-	public UserModel loadUser(Long id) {
-		// copy du model + regle de gestion
-		UserModel userModel = new UserModel();
-		userModel.copyModel(userDao.find(id));
-		return userModel;
-	}
+	@Autowired
+	private IUserDao userDao;
 	
-	@Transactional(readOnly = true)
-	public User loadQueryUser(Long id) {
-		// copy du model + regle de gestion		
-		//User user = userDao.queryUser(id);
-		User user = userDao.find(id);		
-		return user;
-	}
+	@Autowired
+	private UserModel userModel;
 	
-//	@Transactional(readOnly = true)
-//	public List<UserModel> loadAllUser() {
-//		// copy du model + regle de gestion
-//		UserModel userM = new UserModel();
-//		List<UserModel> listModel = userM.copyModel(userDao.findAllUser());
-//		return listModel;
-//	}
+		
+//	@Autowired
+//	public UserServiceImpl(User entity, UserModel model, Long id) {
+//		super(entity, model, id);
+//	}	
 	
-	@Transactional(readOnly = true)
-	public List<User> loadAllUser() {
-		// copy du model + regle de gestion		
-		return userDao.findAll();		
+	@Autowired
+	public UserServiceImpl(IUserDao userDao, UserModel userModel) {
+		super(userDao,userModel);	
 	}
 
-	
-	public void save(User user) {
-		userDao.save(user);		
-	}
-
-	
-	public void update(User user) {
-		userDao.update(user);
-	}
-
-	@Transactional(readOnly = true)
-	public List<UserModel> userCriteria(CritereImpl critere) {			
-		UserModel userM = new UserModel();
-		List<UserModel> listModel = userM.copyModel(userDao.userCriteria(critere));		
-		logger.info("### userCriteria : " + critere);
-		return listModel;
-	}
-	
 	@Transactional(readOnly = true)
 	public UserModel auth(CredentialImpl credential) {			
 		UserModel userModel = new UserModel();
 		User user = userDao.auth(credential);
 		userModel.copyModel(user);
-		return userModel;
-		
+		return userModel;		
+	}
+
+	@Transactional(readOnly = true)
+	public List<UserModel> objectCriteria(CritereImpl critere) {
+		List<UserModel> listModel = (List<UserModel>)userModel.copyModel(userDao.userCriteria(critere));		
+		logger.info("### userCriteria : " + critere);
+		return listModel;
 	}
 
 }

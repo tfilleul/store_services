@@ -1,4 +1,4 @@
-package fr.tfl.store.persistance;
+package fr.tfl.store.persistance.impl;
 
 import java.io.Serializable;
 import java.util.List;
@@ -13,10 +13,14 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import fr.tfl.store.persistance.IDao;
+import fr.tfl.store.persistance.IDomainEntity;
 
 @Repository
 public abstract class AbstractDao<T extends IDomainEntity, ID extends Serializable>
@@ -246,10 +250,6 @@ public abstract class AbstractDao<T extends IDomainEntity, ID extends Serializab
     // =======================
     // = Getters and Setters =
     // =======================
-
-   
-
-
     public Class<T> getDomainClass() {
         return domainClass;
     }
@@ -261,4 +261,16 @@ public abstract class AbstractDao<T extends IDomainEntity, ID extends Serializab
     public String getCname() {
         return cname;
     }
+    
+    /**
+	 * 
+	 * @param criteria
+	 * @param propertyName
+	 * @param value
+	 */
+	protected void addRestrictionIfNotNull(Criteria criteria, String propertyName, Object value) {
+	    if (value != null) {
+	        criteria.add(Restrictions.eq(propertyName, value));
+	    }
+	}
 }

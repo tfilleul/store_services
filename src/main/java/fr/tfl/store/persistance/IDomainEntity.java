@@ -2,8 +2,8 @@ package fr.tfl.store.persistance;
 
 import java.io.Serializable;
 
-public interface IDomainEntity extends Serializable {
+public interface IDomainEntity<ID extends Serializable> extends Serializable {
 	
-	Long getId();
+	ID getId();
 
 }

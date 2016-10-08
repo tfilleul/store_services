@@ -10,6 +10,7 @@ import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -30,7 +31,7 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import fr.tfl.store.bean.User;
 import fr.tfl.store.model.UserModel;
 import fr.tfl.store.persistance.critere.CritereImpl;
-import fr.tfl.store.services.IUserService;
+import fr.tfl.store.services.IStoreService;;
 
 @Controller
 public class UserCtlImpl extends AbstractStoreCtlImpl {
@@ -42,7 +43,8 @@ public class UserCtlImpl extends AbstractStoreCtlImpl {
 	public static final String ROOT = "C:\\Users\\t.filleul\\Downloads\\store\\";
 
 	@Autowired
-	private IUserService userService;
+	@Qualifier("userService")
+	private IStoreService<User,UserModel,Long> userService;
 	
 	@RequestMapping(value = "/user/picture/{idpicture}")	
 	public @ResponseBody ResponseEntity<byte[]> getProfilPicture(@PathVariable("idpicture")String idPicture) throws IOException {
@@ -60,7 +62,7 @@ public class UserCtlImpl extends AbstractStoreCtlImpl {
 		try {
 			logger.info("getUser");
 	        ObjectWriter writer = filter();
-	        final User user = (User)userService.loadQueryUser(id);
+	        final User user = (User)userService.loadQueryObject(id);
 	        return writer.writeValueAsString(user);
 		}
 		catch(JsonProcessingException ex) {
@@ -74,7 +76,7 @@ public class UserCtlImpl extends AbstractStoreCtlImpl {
 	public @ResponseBody String getAllUser() throws JsonProcessingException {
 		logger.info("getAllUser");		
 		ObjectWriter writer = filter();
-        final List<User> list = userService.loadAllUser();
+        final List<User> list = userService.loadAllObjects();
         return writer.writeValueAsString(list);	
 	}	
 	
@@ -82,7 +84,7 @@ public class UserCtlImpl extends AbstractStoreCtlImpl {
 	@RequestMapping(value="/user/search",method = RequestMethod.POST)	
 	public @ResponseBody List<UserModel> getUserByCriteria(@RequestBody CritereImpl critere) {
 		logger.info("getUserByCriteria");
-		List<UserModel> list = (List<UserModel>)userService.userCriteria(critere); 
+		List<UserModel> list = (List<UserModel>)userService.objectCriteria(critere); 
 		return list;
 	}
 				
