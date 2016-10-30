@@ -6,9 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import fr.tfl.store.bean.User;
-import fr.tfl.store.model.UserModel;
-import fr.tfl.store.services.IStoreService;
+import fr.tfl.store.model.UserDTO;
+import fr.tfl.store.services.facade.impl.UserServiceFacade;
 import junit.framework.TestCase;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -16,12 +15,12 @@ import junit.framework.TestCase;
 public class ServiceUserTest extends TestCase {
 	
 	@Autowired
-	private IStoreService<User, UserModel> userService;
+	private UserServiceFacade userServiceFace;
 	
 	@Test
 	public void testUserService() {
 		Long id = 1L;
-		User user =  (User)userService.loadQueryObject(id);
+		UserDTO user =  userServiceFace.loadQueryObject(id);
 		System.out.println(user.getName());
 		assertEquals("thierry", user.getFirstname());		
 		assertEquals("filleul", user.getName());

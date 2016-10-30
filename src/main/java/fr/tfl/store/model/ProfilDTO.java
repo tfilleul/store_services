@@ -8,7 +8,7 @@ import org.springframework.beans.BeanUtils;
 
 import fr.tfl.store.bean.Profil;
 
-public class ProfilModel implements Serializable {
+public class ProfilDTO implements Serializable {
 	
 	private Long id;
 	private String profil;
@@ -39,13 +39,13 @@ public class ProfilModel implements Serializable {
 	public void setVersion(int version) {
 		this.version = version;
 	}
-	public static List<ProfilModel> copyModel(List<Profil> listProfil) {
+	public static List<ProfilDTO> copyModel(List<Profil> listProfil) {
 		
-		List<ProfilModel> listProfilM = new ArrayList<ProfilModel>();
+		List<ProfilDTO> listProfilM = new ArrayList<ProfilDTO>();
 		for (Profil profil : listProfil) {
-			ProfilModel profilModel = new ProfilModel();
-			BeanUtils.copyProperties(profil,profilModel);
-			listProfilM.add(profilModel);
+			ProfilDTO ProfilDTO = new ProfilDTO();
+			BeanUtils.copyProperties(profil,ProfilDTO);
+			listProfilM.add(ProfilDTO);
 		}
 		return listProfilM;
 	}

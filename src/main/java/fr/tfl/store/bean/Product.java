@@ -33,6 +33,7 @@ public class Product implements IDomainEntity<UUID> {
 	private Integer quantity;
 	private Commande commande;
 	private double price;
+	private String idpicture;
 
 	@Column(name = "price")
 	public double getPrice() {
@@ -116,5 +117,15 @@ public class Product implements IDomainEntity<UUID> {
 	public void setCommande(Commande commande) {
 		this.commande = commande;
 	}
+	
+	@Column(name = "idpicture")
+	public String getIdpicture() {
+		return this.idpicture;
+	}
+
+	public void setIdpicture(String idpicture) {
+		this.idpicture = idpicture;
+	}
+
 
 }

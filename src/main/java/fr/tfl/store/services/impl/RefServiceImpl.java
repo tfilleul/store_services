@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import fr.tfl.store.bean.Profil;
-import fr.tfl.store.model.ProfilModel;
-import fr.tfl.store.model.RefModel;
+import fr.tfl.store.model.ProfilDTO;
+import fr.tfl.store.model.RefDTO;
 import fr.tfl.store.persistance.IRefDao;
 import fr.tfl.store.services.IRefService;
 
@@ -31,10 +31,10 @@ public class RefServiceImpl implements IRefService {
 			.getLogger(RefServiceImpl.class);
 
 	@Transactional(readOnly = true)
-	public RefModel loadRef(int type) {		
+	public RefDTO loadRef(int type) {		
 		List<Profil> listProfil = refDao.findAll();
-		List<ProfilModel> listProfilM = ProfilModel.copyModel(listProfil);
-		RefModel ref = new RefModel();
+		List<ProfilDTO> listProfilM = ProfilDTO.copyModel(listProfil);
+		RefDTO ref = new RefDTO();
 		ref.setListProfil(listProfilM);
 		return ref;
 	}	

@@ -20,6 +20,9 @@ import fr.tfl.store.util.ErrorResourceImpl;
 
 public class AbstractStoreCtlImpl {
 	
+	protected static final String ROOT = "C:\\Users\\t.filleul\\Downloads\\store\\";
+
+	
 	protected ObjectWriter filterAuth() {	
 		final SimpleFilterProvider filter = new SimpleFilterProvider();
 		final ObjectMapper mapper = new ObjectMapper();  

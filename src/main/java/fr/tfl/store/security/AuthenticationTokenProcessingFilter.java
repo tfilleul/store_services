@@ -6,6 +6,7 @@ import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -34,9 +35,22 @@ public class AuthenticationTokenProcessingFilter extends GenericFilterBean {
   public void doFilter(final ServletRequest request, final ServletResponse response, final FilterChain chain) throws IOException,
     ServletException {
 	boolean tokenValid = false;
+	String authTokenCookie = null;
     UserDetails userDetails = null;
+    Cookie cokieStore = null;
 	HttpServletRequest httpRequest = this.getAsHttpRequest(request);
     
+	Cookie[] tabCookie = httpRequest.getCookies();
+	if (tabCookie != null) {
+		for (int i = 0; i < tabCookie.length; i++) {
+			if (tabCookie[i].getName() == "store") {
+				cokieStore = tabCookie[i];
+				authTokenCookie = cokieStore.getValue();
+			}
+		}
+	}
+	
+	
     String authToken = this.extractAuthTokenFromRequest(httpRequest);
     String userName = TokenUtils.getUserNameFromToken(authToken);
 
@@ -59,6 +73,12 @@ public class AuthenticationTokenProcessingFilter extends GenericFilterBean {
 			   				HttpServletResponse.SC_UNAUTHORIZED,
 			   				"STORE *** Unauthorized: Authentication token was either missing or invalid.");
 	    }
+    } else if (((HttpServletRequest)request).getRequestURI().indexOf("logon") == -1 && authToken != null) {
+    	// le userNale est obligatoire !!!
+    	HttpServletResponse httpReponse = (HttpServletResponse) response;
+  		httpReponse.sendError(
+				HttpServletResponse.SC_UNAUTHORIZED,
+				"STORE *** Unauthorized: Authentication token was either missing or invalid.");
     }
 
 	chain.doFilter(request, response);

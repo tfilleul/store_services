@@ -28,10 +28,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 
-import fr.tfl.store.bean.User;
-import fr.tfl.store.model.UserModel;
+import fr.tfl.store.model.UserDTO;
 import fr.tfl.store.persistance.critere.CritereImpl;
-import fr.tfl.store.services.IStoreService;;
+import fr.tfl.store.services.facade.IServiceFacade;;
 
 @Controller
 public class UserCtlImpl extends AbstractStoreCtlImpl {
@@ -39,12 +38,15 @@ public class UserCtlImpl extends AbstractStoreCtlImpl {
 	/** Logger **/
 	private static final Logger logger = LoggerFactory
 			.getLogger(UserCtlImpl.class);
-	
-	public static final String ROOT = "C:\\Users\\t.filleul\\Downloads\\store\\";
 
+	
 	@Autowired
-	@Qualifier("userService")
-	private IStoreService<User,UserModel,Long> userService;
+	@Qualifier("userServiceFacade")
+	private IServiceFacade userServiceFacade;
+	
+	private ObjectMapper mapper = new ObjectMapper();
+    private ObjectWriter writer = filter();
+
 	
 	@RequestMapping(value = "/user/picture/{idpicture}")	
 	public @ResponseBody ResponseEntity<byte[]> getProfilPicture(@PathVariable("idpicture")String idPicture) throws IOException {
@@ -58,80 +60,64 @@ public class UserCtlImpl extends AbstractStoreCtlImpl {
 	}
 	
 	@RequestMapping(value="/user/{id}")	
-	public @ResponseBody String getUser(@PathVariable("id") Long id)  {
-		try {
-			logger.info("getUser");
-	        ObjectWriter writer = filter();
-	        final User user = (User)userService.loadQueryObject(id);
-	        return writer.writeValueAsString(user);
-		}
-		catch(JsonProcessingException ex) {
-			logger.error(ex.getMessage());
-			return "ko";
-		}		
-      //return (User)userService.loadQueryUser(id);
+	public @ResponseBody UserDTO getUser(@PathVariable("id") Long id)  {
+		logger.info("getUser");
+        final UserDTO user = (UserDTO)userServiceFacade.loadQueryObject(id);
+        return user;				
 	}
 	
 	@RequestMapping(value="/users")	
-	public @ResponseBody String getAllUser() throws JsonProcessingException {
+	public @ResponseBody List<UserDTO> getAllUser() throws JsonProcessingException {
 		logger.info("getAllUser");		
-		ObjectWriter writer = filter();
-        final List<User> list = userService.loadAllObjects();
-        return writer.writeValueAsString(list);	
+        final List<UserDTO> list = userServiceFacade.loadAllObjects();
+        return list;	
 	}	
 	
 	
 	@RequestMapping(value="/user/search",method = RequestMethod.POST)	
-	public @ResponseBody List<UserModel> getUserByCriteria(@RequestBody CritereImpl critere) {
+	public @ResponseBody List<UserDTO> getUserByCriteria(@RequestBody CritereImpl critere) {
 		logger.info("getUserByCriteria");
-		List<UserModel> list = (List<UserModel>)userService.objectCriteria(critere); 
-		return list;
+		return userServiceFacade.getListByCriteria(critere);
 	}
 				
 	@RequestMapping(value="/user/add",method = RequestMethod.POST, headers="Content-Type=multipart/form-data")
 	public @ResponseBody void addUserFile(@RequestParam("user") String userString, @RequestParam("file") MultipartFile file) throws IOException {
 		logger.info("#####addUserFile");
-		User user = new User();
-		ObjectMapper mapper = new ObjectMapper();
-		
-		user = mapper.readValue(userString, User.class);
+		UserDTO userDTO = new UserDTO();
+		userDTO = mapper.readValue(userString, UserDTO.class);
 		if (!file.isEmpty()) {
 		    UUID idPicture = UUID.randomUUID();
 			Files.copy(file.getInputStream(), Paths.get(ROOT, idPicture.toString()));
-			user.setIdpicture(idPicture.toString());
+			userDTO.setIdpicture(idPicture.toString());
 		}		
-		userService.save(user);	
+		userServiceFacade.save(userDTO);	
 	}
 	
-	@RequestMapping(value="/user/add/json",method = RequestMethod.POST)
-		public @ResponseBody void addUser(@RequestBody User user) throws JsonProcessingException {		
-		logger.info("SearchUserImpl addUser");
-		ObjectWriter writer = filter();
-		userService.save(user);		
-	}
+//	@RequestMapping(value="/user/add/json",method = RequestMethod.POST)
+//		public @ResponseBody void addUser(@RequestBody UserDTO userDto) throws JsonProcessingException {		
+//		logger.info("SearchUserImpl addUser");
+//        User user = modelMapper.map(userDto, User.class);
+//		userService.save(user);		
+//	}
 				
 	@RequestMapping(value="/user/put",method = RequestMethod.POST)
 	public @ResponseBody void putUser(@RequestParam("user") String userString, @RequestParam("file") MultipartFile file) throws IOException {
 		logger.info("/user/put" +userString);
 		File filePicture = null;
-		User user = new User();
-		ObjectMapper mapper = new ObjectMapper();
-		
-		user = mapper.readValue(userString, User.class);		
+		UserDTO user = new UserDTO();
+		user = mapper.readValue(userString, UserDTO.class);		
 		if(user.getIdpicture() != null) {
 			filePicture = new File(ROOT + user.getIdpicture());
 		}		
 		if (!file.isEmpty()) {
-			if (filePicture.exists()){
+			if (filePicture != null && filePicture.exists()){
 				filePicture.delete();
 			}
 			UUID idPicture = UUID.randomUUID();
 			Files.copy(file.getInputStream(), Paths.get(ROOT, idPicture.toString()));
 			user.setIdpicture(idPicture.toString());
 		}
-		userService.update(user);
-		
+		userServiceFacade.update(user);		
 	}
-	
 	
 }

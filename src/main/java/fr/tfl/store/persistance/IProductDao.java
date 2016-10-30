@@ -8,7 +8,7 @@ import fr.tfl.store.persistance.critere.CritereImpl;
 
 public interface IProductDao extends IDao<Product,UUID> {
 
-	List<Product> objectCriteria(CritereImpl critere);
+	List<Product> productCriteria(CritereImpl critere);
 
 }
 	

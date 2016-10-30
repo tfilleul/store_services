@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import fr.tfl.store.model.RefModel;
+import fr.tfl.store.model.RefDTO;
 import fr.tfl.store.services.IRefService;
 
 @Controller
@@ -23,10 +23,10 @@ public class RefCtlImpl extends AbstractStoreCtlImpl {
 	private IRefService refService;
 	
 	@RequestMapping(value="/getRef")	
-	public @ResponseBody RefModel getRef(
+	public @ResponseBody RefDTO getRef(
 			@RequestParam(value = "type",defaultValue="0") int type) {
 		logger.info("getRef");
-		final RefModel ref = (RefModel)refService.loadRef(type);       
+		final RefDTO ref = (RefDTO)refService.loadRef(type);       
         return ref;
 	}
 

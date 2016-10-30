@@ -27,7 +27,7 @@ public class ProductDaoImpl extends AbstractDao<Product, UUID> implements IProdu
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<Product> objectCriteria(CritereImpl critere) {			
+	public List<Product> productCriteria(CritereImpl critere) {			
 		final Session session = this.getSession();
 		Criteria criteria = session.createCriteria(User.class);
 		addRestrictionIfNotNull(criteria,"name",critere.getName());

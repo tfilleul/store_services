@@ -13,14 +13,14 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import fr.tfl.store.bean.User;
 
 @Component
-public class UserModel implements IStoreModel<User>,Serializable {
+public class UserDTO implements IStoreDTO<User>,Serializable {
 	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private Integer id;
-	private ProfilModel profil;
+	private Long id;
+	private ProfilDTO profil;
 	private String name;
 	private String firstname;
 	private String password;
@@ -29,45 +29,49 @@ public class UserModel implements IStoreModel<User>,Serializable {
 	private int version;
 	private String idpicture;
 
+	public UserDTO() {
+		super();
+	}
+
 	public void setIdpicture(String idpicture) {
 		this.idpicture = idpicture;
 	}
 
-	public UserModel copyModel(User user) {
-		ProfilModel profilModel = new ProfilModel();
+	public UserDTO copyModel(User user) {
+		ProfilDTO ProfilDTO = new ProfilDTO();
 		BeanUtils.copyProperties(user, this);
-		BeanUtils.copyProperties(user.getProfil(), profilModel);
-		this.setProfil(profilModel);
+		BeanUtils.copyProperties(user.getProfil(), ProfilDTO);
+		this.setProfil(ProfilDTO);
 		return this;
 	}
 	
-	public List<UserModel> copyModel(List<User> users) {
-		ProfilModel profilModel = null;
-		List<UserModel> listModel = new ArrayList<UserModel>();
+	public List<UserDTO> copyModel(List<User> users) {
+		ProfilDTO ProfilDTO = null;
+		List<UserDTO> listModel = new ArrayList<UserDTO>();
 		for (User user : users) {
-			profilModel = new ProfilModel();
+			ProfilDTO = new ProfilDTO();
 			BeanUtils.copyProperties(user, this);
-			BeanUtils.copyProperties(user.getProfil(), profilModel);
-			this.setProfil(profilModel);
+			BeanUtils.copyProperties(user.getProfil(), ProfilDTO);
+			this.setProfil(ProfilDTO);
 			listModel.add(this);
 		}	
 		return listModel;
 	}	
 
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
 	@JsonIgnoreProperties(ignoreUnknown=true)
-	public ProfilModel getProfil() {
+	public ProfilDTO getProfil() {
 		return profil;
 	}
 
-	public void setProfil(ProfilModel profil) {
+	public void setProfil(ProfilDTO profil) {
 		this.profil = profil;
 	}
 

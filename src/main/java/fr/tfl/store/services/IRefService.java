@@ -1,9 +1,9 @@
 package fr.tfl.store.services;
 
-import fr.tfl.store.model.RefModel;
+import fr.tfl.store.model.RefDTO;
 
 public interface IRefService {
 
-	RefModel loadRef(int type);
+	RefDTO loadRef(int type);
 
 }
