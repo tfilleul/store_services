@@ -15,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -62,12 +63,12 @@ public class ProductCtlImpl extends AbstractStoreCtlImpl {
       //return (Product)ProductService.loadQueryProduct(id);
 	}
 	
-	@RequestMapping(value="/products")	
-	public @ResponseBody String getAllProduct() throws JsonProcessingException {
+	@RequestMapping(value="/product/products")	
+	public @ResponseBody List<ProductDTO> getAllProduct()  {
 		logger.info("getAllProduct");		
 		ObjectWriter writer = filter();
         final List<ProductDTO> list = productServiceFacade.loadAllObjects();
-        return writer.writeValueAsString(list);	
+        return list;	
 	}	
 	
 	
@@ -78,7 +79,8 @@ public class ProductCtlImpl extends AbstractStoreCtlImpl {
 		return lstDTO;
 	}
 	
-	@RequestMapping(value="/product/add",method = RequestMethod.POST, headers="Content-Type=multipart/form-data")
+	@Secured("admin")
+	@RequestMapping(value="/product/add",method = RequestMethod.GET)
 	public @ResponseBody void addUserFile(@RequestParam("user") String productString, @RequestParam("file") MultipartFile file) throws IOException {
 		logger.info("#####addProductFile");
 		ObjectMapper mapper = new ObjectMapper();
@@ -92,6 +94,7 @@ public class ProductCtlImpl extends AbstractStoreCtlImpl {
 		productServiceFacade.save(productDTO);	
 	}
 	
+	@Secured("admin")
 	@RequestMapping(value="/product/add/cart",method = RequestMethod.POST)
 	public @ResponseBody void addProductToCart(@RequestBody ProductDTO product,HttpServletRequest request) throws JsonProcessingException {		
 		

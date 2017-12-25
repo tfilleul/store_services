@@ -63,15 +63,16 @@ public class AuthenticationTokenProcessingFilter extends GenericFilterBean {
 		           userDetails.getAuthorities());
 		         authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpRequest));
 		         SecurityContextHolder.getContext().setAuthentication(authentication);
-		         tokenValid = true;
+		         tokenValid = true;		     	
 		       }
     	 }
     
 	    if (!tokenValid && ((HttpServletRequest)request).getRequestURI().indexOf("logoff") == -1){
-			     	  HttpServletResponse httpReponse = (HttpServletResponse) response;
+			     	  HttpServletResponse httpReponse = (HttpServletResponse) response;			     
 			      		httpReponse.sendError(
 			   				HttpServletResponse.SC_UNAUTHORIZED,
 			   				"STORE *** Unauthorized: Authentication token was either missing or invalid.");
+			      		return;
 	    }
     } else if (((HttpServletRequest)request).getRequestURI().indexOf("logon") == -1 && authToken != null) {
     	// le userNale est obligatoire !!!
@@ -79,10 +80,10 @@ public class AuthenticationTokenProcessingFilter extends GenericFilterBean {
   		httpReponse.sendError(
 				HttpServletResponse.SC_UNAUTHORIZED,
 				"STORE *** Unauthorized: Authentication token was either missing or invalid.");
-    }
-
-	chain.doFilter(request, response);
-
+  		return;
+    }    
+    chain.doFilter(request, response);
+    
   }
 
   private HttpServletRequest getAsHttpRequest(final ServletRequest request) {

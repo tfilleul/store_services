@@ -37,27 +37,6 @@ public class UserDTO implements IStoreDTO<User>,Serializable {
 		this.idpicture = idpicture;
 	}
 
-	public UserDTO copyModel(User user) {
-		ProfilDTO ProfilDTO = new ProfilDTO();
-		BeanUtils.copyProperties(user, this);
-		BeanUtils.copyProperties(user.getProfil(), ProfilDTO);
-		this.setProfil(ProfilDTO);
-		return this;
-	}
-	
-	public List<UserDTO> copyModel(List<User> users) {
-		ProfilDTO ProfilDTO = null;
-		List<UserDTO> listModel = new ArrayList<UserDTO>();
-		for (User user : users) {
-			ProfilDTO = new ProfilDTO();
-			BeanUtils.copyProperties(user, this);
-			BeanUtils.copyProperties(user.getProfil(), ProfilDTO);
-			this.setProfil(ProfilDTO);
-			listModel.add(this);
-		}	
-		return listModel;
-	}	
-
 	public Long getId() {
 		return id;
 	}

@@ -15,6 +15,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,8 +30,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 
 import fr.tfl.store.model.UserDTO;
+import fr.tfl.store.model.UserNameDTO;
 import fr.tfl.store.persistance.critere.CritereImpl;
-import fr.tfl.store.services.facade.IServiceFacade;;
+import fr.tfl.store.services.facade.IUserServiceFacade;;
 
 @Controller
 public class UserCtlImpl extends AbstractStoreCtlImpl {
@@ -42,7 +44,7 @@ public class UserCtlImpl extends AbstractStoreCtlImpl {
 	
 	@Autowired
 	@Qualifier("userServiceFacade")
-	private IServiceFacade userServiceFacade;
+	private IUserServiceFacade userServiceFacade;
 	
 	private ObjectMapper mapper = new ObjectMapper();
     private ObjectWriter writer = filter();
@@ -66,20 +68,27 @@ public class UserCtlImpl extends AbstractStoreCtlImpl {
         return user;				
 	}
 	
-	@RequestMapping(value="/users")	
+	@RequestMapping(value="/user/users")	
 	public @ResponseBody List<UserDTO> getAllUser() throws JsonProcessingException {
 		logger.info("getAllUser");		
         final List<UserDTO> list = userServiceFacade.loadAllObjects();
         return list;	
 	}	
 	
-	
 	@RequestMapping(value="/user/search",method = RequestMethod.POST)	
 	public @ResponseBody List<UserDTO> getUserByCriteria(@RequestBody CritereImpl critere) {
 		logger.info("getUserByCriteria");
 		return userServiceFacade.getListByCriteria(critere);
 	}
-				
+	
+	
+	@RequestMapping(value="/user/search/name",method = RequestMethod.POST)	
+	public @ResponseBody List<UserNameDTO> getUserNameByCriteria(@RequestBody CritereImpl critere) {
+		logger.info("getUserByCriteria");
+		return userServiceFacade.getListNameByCriteria(critere);
+	}
+	
+	@Secured("admin")
 	@RequestMapping(value="/user/add",method = RequestMethod.POST, headers="Content-Type=multipart/form-data")
 	public @ResponseBody void addUserFile(@RequestParam("user") String userString, @RequestParam("file") MultipartFile file) throws IOException {
 		logger.info("#####addUserFile");
@@ -99,17 +108,18 @@ public class UserCtlImpl extends AbstractStoreCtlImpl {
 //        User user = modelMapper.map(userDto, User.class);
 //		userService.save(user);		
 //	}
-				
-	@RequestMapping(value="/user/put",method = RequestMethod.POST)
-	public @ResponseBody void putUser(@RequestParam("user") String userString, @RequestParam("file") MultipartFile file) throws IOException {
+	
+	@RequestMapping(value="/user/put",method = RequestMethod.POST, headers="Content-Type=multipart/form-data")
+	public @ResponseBody void putUser(@RequestParam(value="file", required = false) MultipartFile file,@RequestParam("user") String userString) throws IOException {
 		logger.info("/user/put" +userString);
+						
 		File filePicture = null;
 		UserDTO user = new UserDTO();
 		user = mapper.readValue(userString, UserDTO.class);		
 		if(user.getIdpicture() != null) {
 			filePicture = new File(ROOT + user.getIdpicture());
 		}		
-		if (!file.isEmpty()) {
+		if (file != null && !file.isEmpty()) {
 			if (filePicture != null && filePicture.exists()){
 				filePicture.delete();
 			}

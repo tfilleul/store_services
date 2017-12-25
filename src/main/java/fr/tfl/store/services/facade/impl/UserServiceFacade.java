@@ -1,6 +1,8 @@
 package fr.tfl.store.services.facade.impl;
 
 import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
@@ -14,13 +16,15 @@ import org.springframework.transaction.annotation.Transactional;
 
 import fr.tfl.store.bean.User;
 import fr.tfl.store.model.UserDTO;
+import fr.tfl.store.model.UserNameDTO;
 import fr.tfl.store.persistance.IUserDao;
 import fr.tfl.store.persistance.critere.CritereImpl;
 import fr.tfl.store.services.IStoreService;
+import fr.tfl.store.services.facade.IUserServiceFacade;
 
 @Service("userServiceFacade")
 @Transactional
-public class UserServiceFacade extends AbstractServiceFacade<UserDTO, User, Long>    {
+public class UserServiceFacade implements IUserServiceFacade   {
 	
 	/** Logger **/
 	private static final Logger logger = LoggerFactory
@@ -28,17 +32,10 @@ public class UserServiceFacade extends AbstractServiceFacade<UserDTO, User, Long
 	
 	@Autowired
 	private IUserDao userDao;
-
 	
 	@Autowired
 	@Qualifier("userService")
 	private IStoreService<User,Long> userService;
-
-	
-	@Autowired
-	public UserServiceFacade(IStoreService<User, Long> userService,IUserDao userDao) {
-		super(userService,userDao);
-	}
 	
 	@Transactional(readOnly = true)
 	public List<UserDTO> loadAllObjects() {	
@@ -80,4 +77,17 @@ public class UserServiceFacade extends AbstractServiceFacade<UserDTO, User, Long
 		return lstDTO;
 	}
 	
+	@Transactional(readOnly = true)
+	public List<UserNameDTO> getListNameByCriteria(CritereImpl critere) {		
+		logger.info("userCriteriaListName : " + critere);
+		List<UserNameDTO> lstDTO = new ArrayList<UserNameDTO>();
+		List<Object[]> lstUsers = userDao.userCriteriaListName(critere);
+		for (Iterator<Object[]> iterator = lstUsers.iterator(); iterator.hasNext();) {
+			Object[] myResult  = (Object[]) iterator.next();
+			UserNameDTO userNameDTO = new UserNameDTO((Long)myResult[0],(String)myResult[1],(Integer)myResult[2]);
+			lstDTO.add(userNameDTO);
+		}
+		return lstDTO;
+	}
+			
 }

@@ -1,0 +1,1 @@
+C:\Users\t.filleul>"C:\Program Files\keycloak-2.5.0.CR1\bin\standalone.bat" -Dkeycloak.migration.realmName=store -Dkeycloak.migration.action=export -Dkeycloak.migration.provider=singleFile -Dkeycloak.migration.file=store2.json

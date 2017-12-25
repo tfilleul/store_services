@@ -4,7 +4,9 @@ import java.util.List;
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.transform.Transformers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -28,12 +30,27 @@ public class UserDaoImpl extends AbstractDao<User, Long> implements IUserDao {
 	}
 	
 	@SuppressWarnings("unchecked")
+	public List<Object[]> userCriteriaListName(CritereImpl critere) {			
+		final Session session = this.getSession();
+		Criteria criteria = session.createCriteria(User.class);
+		addRestrictionIfNotNullAndLike(criteria,"name",critere.getName());
+		addRestrictionIfNotNull(criteria,"firstname",critere.getFirstName());
+		addRestrictionIfNotNull(criteria,"age",critere.getAge());
+		criteria.setProjection(Projections.projectionList().add(Projections.property("id"))
+				.add(Projections.property("name"))
+				.add(Projections.property("version")));
+		//.setResultTransformer(Transformers.aliasToBean(User.class));
+		return criteria.list();
+	}
+	
+	@SuppressWarnings("unchecked")
 	public List<User> userCriteria(CritereImpl critere) {			
 		final Session session = this.getSession();
 		Criteria criteria = session.createCriteria(User.class);
 		addRestrictionIfNotNull(criteria,"name",critere.getName());
 		addRestrictionIfNotNull(criteria,"firstname",critere.getFirstName());
 		addRestrictionIfNotNull(criteria,"age",critere.getAge());
+		addRestrictionIfNotNull(criteria,"mail",critere.getEmail());
 		return criteria.list();
 	}
 	

@@ -1,0 +1,31 @@
+version: '2'
+services:
+  postgresdb:
+    build: ./postgres
+    hostname: mypostgres
+    container_name: mypostgres
+    volumes: 
+    - /private/var/lib/postgresql/data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432    
+  mykeycloak:
+     build: ./keycloak
+     image: jboss/keycloak 
+     hostname: mykeycloak
+     container_name: mykeycloak
+     links:
+      - mywildfly:wildfly
+     ports:
+      - 8090:8090
+      - 10000:10000 
+  mywildfly:
+    build: ./wildfly_Adapter
+    container_name: mywildfly
+    volumes:
+    - /private/mywildfly/media/store:/tmp/data 
+    hostname: wildfly      
+    links:
+      - postgresdb:db
+    ports:
+      - 8080:8080
+      - 9990:9990

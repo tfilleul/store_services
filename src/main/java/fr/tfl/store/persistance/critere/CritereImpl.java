@@ -11,6 +11,7 @@ public class CritereImpl implements Serializable {
 	String name;
 	String firstName;
 	String age;
+	String email;
 
 	public String getName() {
 		return name;
@@ -35,6 +36,16 @@ public class CritereImpl implements Serializable {
 	public void setAge(String age) {
 		this.age = age;
 	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	
+	
 	
 	
 }

@@ -1,0 +1,23 @@
+FROM jboss/keycloak:2.5.0.FINAL
+
+
+ENV KEYCLOAK_HOME /opt/jboss/keycloak
+
+
+# Add standalone
+#COPY standalone.xml ${KEYCLOAK_HOME}/standalone/configuration/standalone.xml
+
+USER root
+
+RUN mkdir -p /tmp/data/
+COPY store.json /tmp/data/
+
+# add user
+#RUN ${KEYCLOAK_HOME}/bin/add-user-keycloak.sh -u admin -p Newton2016!
+
+#RUN chown jboss:jboss ${KEYCLOAK_HOME}/standalone/configuration/standalone.xml
+#RUN chmod 755 ${KEYCLOAK_HOME}/standalone/configuration/standalone.xml
+
+ENTRYPOINT ${KEYCLOAK_HOME}/bin/standalone.sh -b 0.0.0.0 -bmanagement 0.0.0.0 -Djboss.socket.binding.port-offset=10 -Dkeycloak.migration.action=import -Dkeycloak.migration.provider=singleFile -Dkeycloak.migration.file=/tmp/data/store.json -Dkeycloak.migration.strategy=OVERWRITE_EXISTING
+   
+#CMD ["-Dkeycloak.migration.action=import","-Dkeycloak.migration.provider=singleFile","-Dkeycloak.migration.file=store.json","-Dkeycloak.migration.strategy=OVERWRITE_EXISTING"]

@@ -17,5 +17,7 @@ public interface IServiceFacade <D extends IStoreDTO,ID extends Serializable>{
   public void update(D store);
   
   public List<D> getListByCriteria(CritereImpl critere);
+  
+
 
 }

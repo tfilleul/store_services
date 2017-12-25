@@ -12,6 +12,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
@@ -271,6 +272,18 @@ public abstract class AbstractDao<T extends IDomainEntity, ID extends Serializab
 	protected void addRestrictionIfNotNull(Criteria criteria, String propertyName, Object value) {
 	    if (value != null) {
 	        criteria.add(Restrictions.eq(propertyName, value));
+	    }
+	}
+	
+	/**
+	 * 
+	 * @param criteria
+	 * @param propertyName
+	 * @param value
+	 */
+	protected void addRestrictionIfNotNullAndLike(Criteria criteria, String propertyName, Object value) {
+	    if (value != null) {
+	        criteria.add(Restrictions.ilike(propertyName, String.valueOf(value),MatchMode.START));
 	    }
 	}
 }

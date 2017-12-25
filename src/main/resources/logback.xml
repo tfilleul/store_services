@@ -8,9 +8,18 @@
 		</encoder>
 	</appender>
 	
-	<logger name="org.springframework" level="INFO">
+	<logger name="org.springframework" level="DEBUG">
 		<appender-ref ref="CONSOLE"/>
 	</logger>
+	
+	<logger name="org.keycloak" level="DEBUG">
+		<appender-ref ref="CONSOLE"/>
+	</logger>
+	
+	<logger name="fr.tfl.store.filter" level="INFO">
+		<appender-ref ref="CONSOLE"/>
+	</logger>
+	
 	
 
 	<!-- Strictly speaking, the level attribute is not necessary since -->

@@ -20,7 +20,8 @@ import fr.tfl.store.util.ErrorResourceImpl;
 
 public class AbstractStoreCtlImpl {
 	
-	protected static final String ROOT = "C:\\Users\\t.filleul\\Downloads\\store\\";
+	//protected static final String ROOT = "C:\\Users\\t.filleul\\Downloads\\store\\";
+	protected static final String ROOT = "/tmp/data/";
 
 	
 	protected ObjectWriter filterAuth() {	
